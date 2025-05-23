@@ -1,3 +1,13 @@
+// @title Finance Tracker API
+// @version 1.0
+// @description API dokumentasi untuk aplikasi keuangan
+// @contact.name Tim Dev
+// @contact.email kamu@email.com
+// @host localhost:8080
+// @BasePath /api/v1
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 package main
 
 import (
@@ -6,8 +16,12 @@ import (
 	"log"
 	"os"
 
+	_ "finance-tracker/cmd/docs"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	swaggerFiles "github.com/swaggo/files" // <-- Tambah ini
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func main() {
@@ -23,6 +37,7 @@ func main() {
 
 	// Setup Router
 	router := gin.Default()
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	routes.RegisterRoutes(router, db)
 
 	// Run server

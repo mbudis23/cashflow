@@ -9,7 +9,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GET /accounts
+// GetAccounts godoc
+// @Summary Get all accounts for the current user
+// @Description Retrieve list of accounts owned by the authenticated user
+// @Tags accounts
+// @Produce json
+// @Success 200 {object} models.APIMessage
+// @Failure 400 {object} models.APIError
+// @Failure 500 {object} models.APIError
+// @Security BearerAuth
+// @Router /api/accounts [get]
 func GetAccounts(db *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetInt("user_id") // diasumsikan dari middleware JWT
@@ -34,7 +43,18 @@ func GetAccounts(db *sql.DB) gin.HandlerFunc {
 	}
 }
 
-// POST /accounts
+// CreateAccount godoc
+// @Summary Create a new account
+// @Description Create a financial account for the current user
+// @Tags accounts
+// @Accept json
+// @Produce json
+// @Param account body models.Account true "Account Data"
+// @Success 201 {object} models.Account
+// @Failure 400 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Security BearerAuth
+// @Router /api/accounts [post]
 func CreateAccount(db *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetInt("user_id")
@@ -56,7 +76,19 @@ func CreateAccount(db *sql.DB) gin.HandlerFunc {
 	}
 }
 
-// PUT /accounts/:id
+// UpdateAccount godoc
+// @Summary Update an existing account
+// @Description Update name, type, or balance of an account by ID
+// @Tags accounts
+// @Accept json
+// @Produce json
+// @Param id path int true "Account ID"
+// @Param account body models.Account true "Updated Account Data"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Security BearerAuth
+// @Router /api/accounts/{id} [put]
 func UpdateAccount(db *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		accountID := c.Param("id")
@@ -78,7 +110,17 @@ func UpdateAccount(db *sql.DB) gin.HandlerFunc {
 	}
 }
 
-// DELETE /accounts/:id
+// DeleteAccount godoc
+// @Summary Delete an account
+// @Description Remove an account by its ID
+// @Tags accounts
+// @Produce json
+// @Param id path int true "Account ID"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Security BearerAuth
+// @Router /api/accounts/{id} [delete]
 func DeleteAccount(db *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		accountID := c.Param("id")
