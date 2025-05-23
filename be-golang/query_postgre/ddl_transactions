@@ -1,0 +1,15 @@
+CREATE TABLE transactions (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    type VARCHAR(20) NOT NULL CHECK (type IN ('income', 'expense', 'transfer', 'loan')),
+    amount NUMERIC(14, 2) NOT NULL CHECK (amount >= 0),
+    account_from INTEGER REFERENCES accounts(id),
+    account_to INTEGER REFERENCES accounts(id),
+    category_id INTEGER REFERENCES categories(id),
+    description TEXT,
+    is_tax_applied BOOLEAN DEFAULT FALSE,
+    tax_amount NUMERIC(14, 2) DEFAULT 0,
+    note TEXT,
+    date DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
